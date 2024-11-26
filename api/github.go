@@ -10,11 +10,9 @@ import (
 	"github.com/samrat-rm/github_user_activity/models"
 )
 
-func FetchGitHubUser(username string) models.GitHubEvent {
-	if len(username) == 0 {
-		log.Fatalln("empty username, Please enter a valid username")
-	}
-	url := fmt.Sprintf("https://api.github.com/users/%s", username)
+func FetchGitHubUser(username string) []models.GitHubEvent {
+
+	url := fmt.Sprintf("https://api.github.com/users/%s/events", username)
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatalf("Error making request: %v\n", err)
@@ -31,7 +29,7 @@ func FetchGitHubUser(username string) models.GitHubEvent {
 
 	}
 
-	var user models.GitHubEvent
+	var user []models.GitHubEvent
 	err = json.Unmarshal(body, &user)
 	if err != nil {
 		log.Fatalf("Error parsing JSON: %v\n", err)
