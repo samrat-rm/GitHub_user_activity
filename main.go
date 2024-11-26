@@ -1,7 +1,17 @@
-package githubuseractivity
+package main
 
-import "fmt"
+import (
+	"os"
+
+	"github.com/samrat-rm/github_user_activity/api"
+	"github.com/samrat-rm/github_user_activity/utils"
+	"github.com/samrat-rm/github_user_activity/validator"
+)
 
 func main() {
-	fmt.Println("Github user activity")
+
+	username := validator.InputsValidator(os.Args)
+	events := api.FetchGitHubUser(username)
+
+	utils.GithubActivityLogger(events)
 }
